@@ -1,0 +1,2 @@
+[gd1][no]    anaconda:1    build:1    ycm:1
+[gd2][ok]    anaconda:2    build:2    ycm:2

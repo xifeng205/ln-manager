@@ -12,7 +12,7 @@ REPOS_PATH=/home/cuiyunpeng/example/test/tools/systools/ln-manager
 
 ln_help()
 {
-    echo [option:[add], [del], [list], [config]] 
+    echo [eg:[add], [del], [list], [config]] 
 }
 
 ln_add_help()
@@ -27,28 +27,49 @@ ln_add_help()
 
 ln_help_del()
 {
-    echo [arg1:ln from] 
-    echo [arg2:ln to] 
-    echo [arg3:ln bias] 
-    echo [arg4:ln pri] 
-    echo [arg4:ln select] 
+    echo [arg1:del] 
+    echo [arg2:cmdname] 
 }
 
 ln_help_config()
 {
     echo [arg1:config] 
-    echo [arg2:] 
-    echo [arg3:pri] 
+    echo [arg2:cmdname] 
+    echo [arg3:priority] 
 }
 
 ln_help_list()
 {
-    echo [arg1:ln from] 
-    echo [arg1:ln from] 
-    echo [arg2:ln to] 
-    echo [arg3:ln bias] 
-    echo [arg4:ln pri] 
-    echo [arg4:ln select] 
+    echo [arg1:list] 
+    echo [arg2:option --all, cmdname] 
+}
+
+ln_group_help()
+{
+    echo [group:[gadd], [gdel], [glist], [gconfig]] 
+}
+
+ln_help_gadd()
+{
+    echo [eg: [gadd] [cmd+priority] subcmdname1:subpriority1 subcmdname2:subpriority2 subcmdname3:subpriority3 
+}
+
+ln_help_gdel()
+{
+    echo [arg1:gdel] 
+    echo [arg2:cmdname] 
+}
+
+ln_help_gconfig()
+{
+    echo [arg1:gconfig] 
+    echo [arg2:cmdname+priority] 
+}
+
+ln_help_glist()
+{
+    echo [arg1:glist] 
+    echo [arg2:cmdname] 
 }
 
 ln_add()
@@ -170,13 +191,6 @@ ln_check_and_subsitute()
     sed -i  "s/$tmp\[no\]    $tmp2/$tmp\[ok\]    $tmp2/" $REPOS_PATH/ln-repos.txt
 }
 
-ln_group_check_and_subsitute()
-{
-    local tmp=$1
-    # local tmp2=$2
-    sed -i  "s/$tmp\[no\]/$tmp\[ok\]/" $REPOS_PATH/ln-group-repos.txt
-    # sed -i  "s/$tmp\[no\]/$tmp\[ok\" $REPOS_PATH/ln-repos.txt
-}
 creat_ln() 
 {
     find_from_path $1 $2 
@@ -219,7 +233,7 @@ ln_group_add()
     if test $# -lt  2
     then
         echo "format as follow" 
-        echo "eg:ln_manager groupadd [group name] [ok/no]  $2 $3 $4  $5 $6  $7 $8" 
+        echo "eg:ln_manager groupadd [group name+num] [ok/no]  $2 $3 $4  $5 $6  $7 $8" 
     else 
         echo "[$1][$2]    $3:$4    $5:$6    $7:$8" >> $REPOS_PATH/ln-group-repos.txt
         sync
@@ -266,7 +280,6 @@ ln_getpath()
         echo option error
         exit -1
     fi
-    # ln_group_check_and_subsitute $1
     n1=$(grep "^\\[$1\]" -w $REPOS_PATH/ln-group-repos.txt  \
     | awk '{print $2}' |cut -d ':' -f 2)
 
@@ -298,9 +311,10 @@ ln_getpath()
 }
 
 
+
 group_creat_ln() 
 {
-    ln_getpath $1
+    ln_getpath $1$2
 
     if [ -n $p1 ] && [ -n $n1 ]
     then
@@ -349,6 +363,14 @@ ln_group_del()
     # esac
 }
 
+ln_group_check_and_subsitute()
+{
+    local tmp=$1
+    local tmp2=$2
+    sed -i  "/^\[$1[0-9]\]/s/\[ok\]/\[no\]/"  $REPOS_PATH/ln-group-repos.txt
+    sed -i  "/^\[$1$2\]/s/\[no\]/\[ok\]/"  $REPOS_PATH/ln-group-repos.txt
+}
+
 ln_group_conf() 
 {
     local select
@@ -356,7 +378,8 @@ ln_group_conf()
     group_list_sub $1
     read -p "Please enter your select: " select
 
-    group_creat_ln  $select
+    group_creat_ln $1 $select
+    ln_group_check_and_subsitute $1 $select
 }
 
 # main function
@@ -364,43 +387,85 @@ ln_group_conf()
 if [ $# -lt 1 ]
 then 
     ln_help
+    ln_group_help
 else
     if test $1 == "add"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_add_help
+            exit -1
+        fi
         ln_add $2 $3 $4 $5 $6
+
     elif test $1 == "del"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_help_del
+            exit -1
+        fi
         ln_del $2  
     elif test $1 == "list"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_help_list
+            exit -1
+        fi
         ln_list $2
+
     elif test $1 == "config"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_help_config
+            exit -1
+        fi
         ln_config $2 $3
+
     elif test $1 == "gadd"
     then
         if [ -z $3 ]
         then
-            ln_help_gconfig
+            ln_help_gadd
         else
             ln_group_add $2 $3 $4 $5 $6 $7 $8 $9
         fi
 
     elif test $1 == "gdel"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_help_gdel
+            exit -1
+        fi
         ln_group_del $2 
 
     elif test $1 == "glist"
     then
+        if [ $# -lt 2 ]
+        then 
+            ln_help_glist
+            exit -1
+        fi
         ln_group_list $2 
 
     elif test $1 == "gconfig"
     then
-        ln_group_conf $2 $3 
+        if [ $# -lt 2 ]
+        then 
+            ln_help_gconfig
+            exit -1
+        fi
+        ln_group_conf $2  
     elif test $1 == "help"
     then
         ln_help
+        ln_group_help
     else
         ln_help
+        ln_group_help
     fi
 fi
+
