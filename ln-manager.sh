@@ -74,6 +74,12 @@ ln_help_glist()
 
 ln_add()
 {
+    if [ $4 != "ok" ] && [ $4 != "no" ]
+    then
+        echo "please input correct  parm"
+        exit -1
+    fi
+
     if test $# -lt 5
     then
         echo "format as follow" 
