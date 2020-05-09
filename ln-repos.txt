@@ -18,3 +18,4 @@
 /home/cuiyunpeng/tools/accouts/csdn/csdn.sh ------> /usr/bin/csdn    csdn[ok]    1
 /home/cuiyunpeng/tools/labelimg/lambelhub/lambelhub.sh ------> /usr/bin/labelhub    labelhub[ok]    1
 /home/cuiyunpeng/tools/accouts/github/github.sh ------> /usr/bin/github    github[ok]    1
+/usr/local/boost_1_73_0 ------> /usr/local/boost    boost[ok]    1

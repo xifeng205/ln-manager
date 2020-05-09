@@ -148,7 +148,7 @@ list_sub()
         # exit -1
     # fi
     # grep "\<$1[okn]\{2\>"  $REPOS_PATH/ln-repos.txt
-    grep "\\$1\["  $REPOS_PATH/ln-repos.txt
+    grep "$1\["  $REPOS_PATH/ln-repos.txt
 }
 
 group_list_sub()
