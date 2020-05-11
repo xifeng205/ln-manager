@@ -12,7 +12,7 @@ REPOS_PATH=/home/cuiyunpeng/example/test/tools/systools/ln-manager
 
 ln_help()
 {
-    echo [eg:[add], [del], [list], [config]] 
+    echo [eg:[add], [del], [list], [config], [fuzzy]] 
 }
 
 ln_add_help()
@@ -38,6 +38,12 @@ ln_help_config()
     echo [arg3:priority] 
 }
 
+ln_help_fuzzy()
+{
+    echo [arg1:fuzzy] 
+    echo [arg2:cmdname] 
+}
+
 ln_help_list()
 {
     echo [arg1:list] 
@@ -46,7 +52,7 @@ ln_help_list()
 
 ln_group_help()
 {
-    echo [group:[gadd], [gdel], [glist], [gconfig]] 
+    echo [group:[gadd], [gdel], [glist], [gconfig], [gfuzzy]] 
 }
 
 ln_help_gadd()
@@ -141,6 +147,58 @@ ln_list()
     case $1 in
         --all)  cat $REPOS_PATH/ln-repos.txt;;
         *)  list_sub $1
+    esac
+
+}
+
+list_fuzzy()
+{
+    # local t=$(grep "$1" -w  $REPOS_PATH/ln-repos.txt)
+    # if [ -z $t ]
+    # then
+        # echo nothing was found
+        # exit -1
+    # fi
+    # grep "\<$1[okn]\{2\>"  $REPOS_PATH/ln-repos.txt
+    grep "$1"  $REPOS_PATH/ln-repos.txt
+}
+
+list_gfuzzy()
+{
+    # local t=$(grep "$1" -w  $REPOS_PATH/ln-repos.txt)
+    # if [ -z $t ]
+    # then
+        # echo nothing was found
+        # exit -1
+    # fi
+    # grep "\<$1[okn]\{2\>"  $REPOS_PATH/ln-repos.txt
+    grep "$1"  $REPOS_PATH/ln-group-repos.txt
+}
+
+ln_gfuzzy()
+{
+    if [ -z $1 ]
+    then
+        cat $REPOS_PATH/ln-group-repos.txt
+        return
+    fi
+
+    case $1 in
+        *)  list_gfuzzy $1
+    esac
+
+}
+
+ln_gfuzzy()
+{
+    if [ -z $1 ]
+    then
+        cat $REPOS_PATH/ln-group-repos.txt
+        return
+    fi
+
+    case $1 in
+        *)  list_gfuzzy $1
     esac
 
 }
@@ -316,8 +374,6 @@ ln_getpath()
     fi
 }
 
-
-
 group_creat_ln() 
 {
     ln_getpath $1$2
@@ -430,6 +486,10 @@ else
         fi
         ln_config $2 $3
 
+    elif test $1 == "fuzzy"
+    then
+        ln_fuzzy $2 
+
     elif test $1 == "gadd"
     then
         if [ -z $3 ]
@@ -456,6 +516,10 @@ else
             exit -1
         fi
         ln_group_list $2 
+
+    elif test $1 == "gfuzzy"
+    then
+        ln_gfuzzy $2 
 
     elif test $1 == "gconfig"
     then

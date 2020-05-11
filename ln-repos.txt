@@ -11,7 +11,7 @@
 /home/cuiyunpeng/tools/opencv/ ------> /home/cuiyunpeng/projects/Darknet/darknet/third_lib/opencv    opencv4[ok]    1
 /home/cuiyunpeng/example/test/tools/systools/cscope/cscope.sh ------> /usr/bin/csc    cscope[ok]    1
 /home/cuiyunpeng/example/test/tools/systools/shutdown/shutdown.sh ------> /usr/bin/sd    shutdown[ok]    1
-/home/cuiyunpeng/tools/usrtools/projects/darknet/darknet.sh ------> /usr/bin/v-d    vdt[ok]    1
+/home/cuiyunpeng/example/test/tools/usrtools/projects/darknet/darknet.sh ------> /usr/bin/v-d    vdt[ok]    1
 /home/cuiyunpeng/example/test/tools/systools/mv2trash/mv2trash.sh ------> /usr/bin/mv2trash    mv2trash[ok]    1
 /home/cuiyunpeng/tools/labelimg/via/via.sh ------> /usr/bin/via    via[ok]    1
 /home/cuiyunpeng/tools/labelimg/Yolo_mark/linux_mark.sh ------> /usr/bin/ymark    ymark[ok]    1
@@ -20,3 +20,12 @@
 /home/cuiyunpeng/tools/accouts/github/github.sh ------> /usr/bin/github    github[ok]    1
 /usr/local/boost_1_73_0 ------> /usr/local/boost    boost[ok]    1
 /usr/local/protobuf-3.0.0-beta-3.3/ ------> /usr/local/protobuf    protobuf[ok]    1
+/usr/local/glog-0.4.0/ ------> /usr/local/glog    glog[ok]    1
+/usr/local/OpenBLAS-0.2.1.8/ ------> /usr/local/OpenBLAS    openblas[ok]    1
+/usr/local/hdf5-1.12.0/ ------> /usr/local/hdf5    hdf5[ok]    1
+/home/cuiyunpeng/tools/anaconda3/lib/libhdf5_hl.so.100 ------> /usr/local/hdf5/lib/libhdf5_hl.so.100    hd5so[ok]    1
+/home/cuiyunpeng/data/coco/ ------> /home/cuiyunpeng/projects/Darknet/darknet/data/coco    coco[ok]    1
+../PythonAPI/pycocotools ------> pycocotools    pycocotools[ok]    1
+libhdf5_hl.so.200.0.0 ------> libhdf5_hl.so.100    libhd5[no]    1
+libhdf5.so.200.0.0 ------> libhdf5.so.103    libhd5[no]    1
+libhdf5.so.200.0.0 ------> libhdf5.so.103    libhd5[ok]    2
